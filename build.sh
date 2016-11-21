@@ -9,7 +9,6 @@ BASEDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 WORKDIR=$BASEDIR/.work
 ARCH=${ARCH:-arm}
 WEAVE_VERSION="v1.8.0"
-K8S_VERSION="v1.4.0"
 GOPATH=$WORKDIR
 WEAVEDIR=$WORKDIR/src/github.com/weaveworks
 
@@ -61,12 +60,6 @@ wka:clone() {
   wka:log "cloning $1"
   git clone https://github.com/weaveworks/$1 $WEAVEDIR/$1
   git -C $WEAVEDIR/$1 checkout $WEAVE_VERSION
-}
-
-wka:clone_k8s() {
-  wka:log "cloning k8s"
-  git clone https://github.com/kubernetes/kubernetes.git $GOPATH/src/k8s.io/kubernetes
-  git -C $GOPATH/src/k8s.io/kubernetes checkout $K8S_VERSION
 }
 
 wka:replace_image_in_files() {
@@ -133,7 +126,7 @@ wka:sanity_check() {
 
 wka:delete_images() {
   set +e
-  docker rmi `docker images -q kodbasen/weave-kube§:latest` > /dev/null 2>&1
+  docker rmi `docker images -q kodbasen/weave-kube:latest` > /dev/null 2>&1
   docker rmi `docker images -q kodbasen/weave-npc:latest` > /dev/null 2>&1
   docker rmi `docker images -q kodbasen/weave:latest` > /dev/null 2>&1
   docker rmi `docker images -q kodbasen/plugin:latest` > /dev/null 2>&1
@@ -152,10 +145,9 @@ wka:build_weave-kube() {
 }
 
 
-#wka:delete_images
+wka:delete_images
 if [ ! -d "$WORKDIR" ]; then
   wka:init
-#  wka:clone_k8s
   wka:clone "weave"
   wka:replace_image_in_files "golang:1.5.2" "armhfbuild/golang:1.5.3"
   wka:replace_image_in_files "weaveworks" "kodbasen"
