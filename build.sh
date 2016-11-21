@@ -172,7 +172,7 @@ wka:log "starting building weave..."
 make -C $WEAVEDIR/weave
 wka:log "done building weave"
 
-for i in weavedb weave-npc plugin weave weaveexec; do
+for i in weavedb weave-npc plugin weave weaveexec weave-kube; do
   wka:log "tagging and pushing $i"
   docker tag kodbasen/$i:latest kodbasen/$i:$WEAVE_VERSION
   docker push kodbasen/$i:latest
@@ -180,4 +180,3 @@ for i in weavedb weave-npc plugin weave weaveexec; do
 done
 
 cd $BASEDIR
-
