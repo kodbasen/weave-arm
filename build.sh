@@ -8,7 +8,7 @@ set -e
 BASEDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 WORKDIR=$BASEDIR/.work
 ARCH=${ARCH:-arm}
-WEAVE_VERSION="v1.8.0"
+WEAVE_VERSION="v1.8.1"
 GOPATH=$WORKDIR
 WEAVEDIR=$WORKDIR/src/github.com/weaveworks
 
